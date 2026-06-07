@@ -1,7 +1,10 @@
 # Master-s-Thesis---Experimental-secondary-concentrator-for-heliostat-fields
 **<Experimental high-concentration secondary concentrator for heliostat fields>**  
+
 Endre Rosseland Wasbø 
+
 Norwegian University of Science and Technology / Department of Mechanical and Industrial Engineering  
+
 2026
 
 ## Overview
