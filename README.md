@@ -1,8 +1,8 @@
 # Master-s-Thesis---Experimental-secondary-concentrator-for-heliostat-fields
 **<Experimental high-concentration secondary concentrator for heliostat fields>**  
-<Endre Rosseland Wasbø>  
-<Norwegian University of Science and Technology / Department of Mechanical and Industrial Engineering>  
-<2026>
+Endre Rosseland Wasbø 
+Norwegian University of Science and Technology / Department of Mechanical and Industrial Engineering  
+2026
 
 ## Overview
 The repository contains code used for analysis, plotting, experimental control, and Autodesk Fusion workflows related to the thesis.
@@ -36,4 +36,4 @@ This repository is licensed under the <MIT> License. See `LICENSE` for details.
 
 If you refer to this repository or reuse parts of the code, please cite the associated master's thesis:
 
-<Wasbø, E. R. (2026) Experimental high-concentration secondary concentrator for heliostat fields. Master's thesis. NTNU.>
+Wasbø, E. R. (2026) Experimental high-concentration secondary concentrator for heliostat fields. Master's thesis. NTNU.
