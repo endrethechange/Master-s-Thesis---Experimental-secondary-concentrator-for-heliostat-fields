@@ -33,7 +33,7 @@ The code is provided primarily for transparency and inspection, not as a general
 
 ## License
 
-This repository is licensed under the <MIT> License. See `LICENSE` for details.
+This repository is licensed under the MIT License. See `LICENSE` for details.
 
 ## Citation
 
