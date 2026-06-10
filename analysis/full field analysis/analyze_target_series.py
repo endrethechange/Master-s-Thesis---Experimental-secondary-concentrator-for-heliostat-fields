@@ -3,14 +3,14 @@
 Analyze Canon CR2 images of the 6 mm x 6 mm five-dot target.
 
 The script does five things:
-1. Validates input file names against the requested NRM/REF/SEC convention.
+1. Validates input file names against the NRM/REF/SEC convention, NRM = Target normal to the sun, REF = Reference target, SEC = Secondary target.
 2. Loads measured CR2 images as a single linear intensity image. The default is
    black-subtracted raw green photosites with no white balance, gamma, auto
    brightness, or per-image scaling; the legacy rawpy RGB path is optional.
 3. Corrects exposure differences with I = P * F^2 / (E * ISO), where P is the
    selected linear scalar pixel value, F is f-number, E is exposure time in
    seconds, and ISO is the camera ISO.
-4. Detects the five-dot target, warps it to the known 1500 x 1500 pixel square,
+4. Detects the five-dot target, warps it to the known 1500 x 1500 pixel square of the target,
    subtracts the matching OFF image when available, and calibrates measured
    fields either from REF simulation matching or from NRM images.
 5. Writes heatmaps, debug images, JSON metadata, and a CSV summary.
