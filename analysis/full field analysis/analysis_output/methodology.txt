@@ -1,0 +1,50 @@
+Full-field target analysis methodology
+
+Target geometry:
+- Physical target size: 6.0 mm x 6.0 mm.
+- Warped analysis frame: 1500 px x 1500 px.
+- Pixel scale: 0.004000 mm/px.
+- Marker dot diameter: 150.0 px; marker regions are excluded from NRM calibration and spot statistics.
+- After ON-OFF subtraction, printed marker regions are filled with feathered local plane interpolation for heatmaps and total/encircled receiver-field estimates because OFF images do not perfectly cancel the target's black-dot contrast under concentrated light.
+
+Light intensity:
+- Measured CR2 scalar source: raw-bayer-mean.
+- Source definition: black-subtracted raw Bayer values averaged over each non-overlapping 2x2 Bayer cell as (R + G1 + G2 + B) / 4, then expanded back to full resolution; no white balance, demosaic tone scaling, gamma, or human-eye weighting.
+- Target detection image: camera-rendered linear preview used only to locate the target geometry; reported values use raw-bayer-mean linear luminance.
+- Target detection uses a display-normalized copy only to compute the perspective transform. All reported peaks, heatmaps, total powers, encircled powers, and calibration values use the unnormalized measured CR2 scalar source above.
+- Exposure correction uses I = P * F^2 / (E * ISO).
+- Raw saturation diagnostics are reported as raw_saturated_fraction, raw_green_saturated_fraction, raw_green_max_value, and camera_white_level_min. Saturated pixels remain clipped at the camera white level; the script does not recover missing above-white signal from a single exposure.
+
+Irradiance calibration:
+- Requested measured-image calibration mode: ref-simulation.
+- Requested REF simulation calibration statistic: total-power.
+- In ref-simulation mode with total-power selected, the real REF total target power over the 6 mm x 6 mm target is matched to the matching REF simulation total target power, then that one W/m^2-per-intensity scale is applied to all measured REF/SEC plots.
+- In ref-simulation mode with peak selected, the real REF peak is matched to the matching REF simulation peak, then that one W/m^2-per-intensity scale is applied to all measured REF/SEC plots.
+- In ref-simulation mode with encircled-mean selected, the previous real REF aperture mean to simulation REF aperture mean scaling is used instead.
+- Requested REF simulation calibration case: 06. If that case is unavailable, the script falls back to any available REF simulation/measurement match.
+- NRM diagnostics are still written when NRM files exist, but NRM is only used for measured W/m^2 scaling when --measurement-calibration nrm is requested or REF-simulation matching is unavailable.
+- If no matching calibration is available, heatmaps are written in normalized intensity units.
+
+Spot size:
+- The heatmap is background-subtracted and lightly Gaussian-smoothed before peak detection.
+- The spot component is the connected region around the peak above max(3*MAD noise, 5% of peak).
+- sigma_x and sigma_y are intensity-weighted second central moments in the target x/y axes.
+- For an ideal Gaussian light spot, these moments are the Gaussian sigma values.
+
+Encircled aperture metrics:
+- REF uses a circular aperture of 0.8000 mm diameter, corresponding to 0.16 m at 1:200 scale.
+- SEC starts from the physical elliptical aspect ratio 2.36575 mm x 1.58325 mm, corresponding to 0.47315 m x 0.31665 m at 1:200 scale.
+- All SEC comparison plots use one shared same-aspect ellipse. The chosen ellipse is the largest shared aperture whose best-positioned SEC mean irradiance is at least the same-source same-season REF aperture mean for every available SEC plot; if that is impossible, the aperture with the best worst-case ratio is used.
+- The aperture center is searched to maximize integrated irradiance/mean inside the aperture, not to match the intensity-weighted centroid.
+- Total power is the sum of W/m^2 over valid comparison cells multiplied by the cell area and reported in kW.
+- The solar irradiance setting (800.0 W/m^2 by default) is only used when NRM calibration is requested or needed as fallback; suns are not reported in the current outputs.
+- Simulation CSV fields are rotated into the measured target frame, then cropped to the physical 6.0 mm x 6.0 mm target window before comparison metrics are computed.
+- The comparison plot uses one shared colorbar range. The default comparison color scale is linear; if --comparison-gamma is set below 1.0, the nonlinear display gamma only changes color rendering and does not change the reported irradiance, power, mean, or peak values.
+- Per-case *_heatmap.png files are diagnostic plots with their own color range; use simulation_comparison.png for direct same-scale visual comparison.
+- The active comparison plot layout is written to comparison_layout_used.json. Edit that JSON and pass it back with --comparison-layout to tune figure size, panel positions, font sizes, title positions, aperture info box placement, and colorbar size/position.
+
+Power-vs-irradiance curves:
+- Additional measured and simulated power-vs-irradiance plots are written to power_vs_irradiance/.
+- These curves use the same aperture center found by the encircled-power analysis for each field. The aperture is scaled from tiny to the full field while preserving the field's aperture shape: circular for REF and elliptical for SEC.
+- The y-value is integrated power in W; the x-value is mean irradiance inside the aperture in kW/m2.
+- Open-circle markers show the actual same-source encircled REF and SEC mean-irradiance/power points. A dotted vertical guide extends from the REF marker to the matching SEC curve at the same mean irradiance.
