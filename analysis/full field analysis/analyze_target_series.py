@@ -4,9 +4,9 @@ Analyze Canon CR2 images of the 6 mm x 6 mm five-dot target.
 
 The script does five things:
 1. Validates input file names against the NRM/REF/SEC convention, NRM = Target normal to the sun, REF = Reference target, SEC = Secondary target.
-2. Loads measured CR2 images as a single linear intensity image. The default is
-   black-subtracted raw green photosites with no white balance, gamma, auto
-   brightness, or per-image scaling; the legacy rawpy RGB path is optional.
+2. Loads measured CR2 images as a single linear intensity image from
+   black-subtracted raw Bayer-cell means, with no white balance, gamma, auto
+   brightness, or per-image scaling.
 3. Corrects exposure differences with I = P * F^2 / (E * ISO), where P is the
    selected linear scalar pixel value, F is f-number, E is exposure time in
    seconds, and ISO is the camera ISO.
@@ -68,7 +68,6 @@ from analysis_measurement import (
 from analysis_model import (
     Calibration,
     FieldPlotData,
-    MEASURED_LUMINANCE_DESCRIPTIONS,
     SUNLIGHT_IRRADIANCE_W_M2,
     WarpedExposure,
 )
@@ -128,16 +127,6 @@ def parse_args() -> argparse.Namespace:
         help=(
             "How measured REF/SEC images are scaled to W/m^2. "
             "ref-simulation matches a real REF statistic to the matching REF simulation. Default: ref-simulation."
-        ),
-    )
-    parser.add_argument(
-        "--measured-luminance-source",
-        choices=tuple(MEASURED_LUMINANCE_DESCRIPTIONS),
-        default="raw-green",
-        help=(
-            "Scalar image source for measured CR2 files. raw-green uses black-subtracted raw green photosites with fixed "
-            "local interpolation at red/blue positions and no white balance/demosaic tone scaling. raw-photosite uses the "
-            "black-subtracted Bayer mosaic directly. postprocess-rgb keeps the legacy rawpy RGB path. Default: raw-green."
         ),
     )
     parser.add_argument(
@@ -252,7 +241,6 @@ def main() -> None:
             geometry,
             debug_dir,
             detection_max_dim=args.detection_max_dim,
-            measured_luminance_source=args.measured_luminance_source,
         )
     for on in sorted(on_exposures, key=lambda item: (item.kind, item.season, item.variant or "", item.path.name)):
         off = selected_off[on.path]
@@ -264,7 +252,6 @@ def main() -> None:
             geometry,
             debug_dir,
             detection_max_dim=args.detection_max_dim,
-            measured_luminance_source=args.measured_luminance_source,
             detection_override=warped_cache[on.path].detection,
         )
 
@@ -361,7 +348,6 @@ def main() -> None:
     write_methodology(
         output_dir,
         solar_irradiance=args.solar_irradiance,
-        measured_luminance_source=args.measured_luminance_source,
         measurement_calibration=args.measurement_calibration,
         ref_calibration_season=args.ref_calibration_season,
         ref_calibration_stat=args.ref_calibration_stat,
