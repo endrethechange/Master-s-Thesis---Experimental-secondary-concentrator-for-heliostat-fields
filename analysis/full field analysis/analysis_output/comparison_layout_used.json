@@ -1,0 +1,90 @@
+{
+  "figure": {
+    "width": 8.1,
+    "height": 10.8,
+    "dpi": 180,
+    "save_pad_inches": 0.02
+  },
+  "fonts": {
+    "family": "Helvetica",
+    "main_title": 18,
+    "main_weight": "normal",
+    "season_header": 12.5,
+    "season_weight": "normal",
+    "axis_title": 8.8,
+    "axis_label": 7.4,
+    "tick": 7.2,
+    "aperture": 7.5,
+    "missing": 8.0,
+    "colorbar_label": 10.5,
+    "colorbar_tick": 8.5
+  },
+  "axis": {
+    "xlabel_labelpad": 1,
+    "ylabel_labelpad": 1,
+    "tick_pad": 1,
+    "aperture_linewidth": 1.0,
+    "aperture_center_size": 16,
+    "aperture_center_linewidth": 1.0,
+    "ticks_mm": [
+      -2.0,
+      0.0,
+      2.0
+    ]
+  },
+  "positions": {
+    "main_title_xy": [
+      0.5,
+      0.975
+    ],
+    "summer_header_xy": [
+      0.5,
+      0.918
+    ],
+    "winter_header_xy": [
+      0.5,
+      0.456
+    ],
+    "divider": {
+      "x0": 0.1,
+      "x1": 0.79,
+      "y": 0.505,
+      "linewidth": 0.5,
+      "color": "#b5b5b5"
+    },
+    "plot_width": 0.145,
+    "plot_height": 0.109,
+    "title_offset_y": 0.012,
+    "box_offset_x": 0.016,
+    "box_anchor_y_fraction": 0.52,
+    "columns": {
+      "simulation": 0.08,
+      "measurement": 0.52
+    },
+    "rows": {
+      "REF_06": 0.745,
+      "SEC_06": 0.545,
+      "REF_01": 0.27,
+      "SEC_01": 0.05
+    }
+  },
+  "info_box": {
+    "facecolor": "#eeeeee",
+    "edgecolor": "#707070",
+    "text_color": "#303030",
+    "bbox_alpha": 1.0,
+    "bbox_pad": 3.0,
+    "line_color": "#8a8a34",
+    "line_width": 0.8
+  },
+  "colorbar": {
+    "rect": [
+      0.875,
+      0.3,
+      0.026,
+      0.41
+    ],
+    "tick_step_kw_m2": 1000.0,
+    "labelpad": 7.0
+  }
+}
